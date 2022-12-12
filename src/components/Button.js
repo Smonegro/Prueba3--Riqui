@@ -36,13 +36,13 @@ const ButtonContainer = styled.button`
   opacity: ${(props) => (props.disabled ? "0.7" : 1)};
 
   font-size: 3rem;
-  width: 75%;
+  width: 200px;
   border-radius: 5px;
   margin-top: 1rem;
-  padding: 0.75rem 7.5rem;
-  margin-left: 1rem;
+  padding: 0.75rem 0;
   display: block;
   font: inherit;
+
   .button:focus {
     outline: none;
   }

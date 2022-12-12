@@ -22,20 +22,19 @@ const ContainerInput = styled.div`
   .input {
     flex: 1;
     font: inherit;
-    width: 75%;
+    width: 100%;
     padding: 0.6rem 0.7rem;
     border-radius: 6px;
     border: 1px solid #ccc;
-    margin-left: 1rem;
     display: block;
   }
+
   .label {
     flex: 1;
     font: inherit;
     color: black;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    margin-left: 1rem;
     display: block;
   }
 

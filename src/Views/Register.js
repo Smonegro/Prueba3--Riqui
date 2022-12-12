@@ -4,10 +4,11 @@ import styled from "styled-components";
 import * as Yup from "yup";
 import GoogleButton from "react-google-button";
 
+import { register } from "../api/auth";
+
 import Card from "../components/Card";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import Instance from "../components/Instance";
 
 const initialValues = {
   first_name: "",
@@ -39,26 +40,16 @@ const schema = Yup.object().shape({
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = () => {
-    addPosts(initialValues);
-  };
-
-  const addPosts = (initialValues) => {
-    Instance.post("", {
-      initialValues,
-    })
-      .then(function (res) {
-        console.log(res);
-        alert("Successfully Register in!");
-      })
-      .catch(function (res) {
-        console.log(res);
-      });
+  const handleSubmit = async (values) => {
+    setIsLoading(true);
+    await register(values);
+    alert("Successfully Register in!");
+    setIsLoading(false);
   };
 
   return (
-    <Card className="register">
-      <FormControl>
+    <FormControl>
+      <Card className="register">
         <Formik
           initialValues={initialValues}
           validationSchema={schema}
@@ -98,35 +89,18 @@ const Register = () => {
                   styleWrapper={{ marginTop: "16px" }}
                   type="password"
                 />
-                <div className="actions">
-                  <Button
-                    kind="outline"
-                    type="submit"
-                    onClick={handleSubmit}
-                    isLoading={isLoading}
-                    disabled={isLoading}
-                  >
-                    Register
-                  </Button>
-                </div>
-                <GoogleButton
-                  clientId="https://www.google.com/"
-                  type="light"
-                  label="Sign up with Google"
-                  className="googlebutton"
-                  style={{
-                    width: 375,
-                    height: 51,
-                    fontSize: 15,
-                    borderRadius: 5,
-                    color: "black",
-                    alignContent: "center",
-                    border: "1px solid #ACABAB",
-                  }}
-                  onClick={() => {
-                    console.log("Google button clicked");
-                  }}
-                />
+
+                <Button
+                  kind="outline"
+                  type="submit"
+                  onClick={handleSubmit}
+                  isLoading={isLoading}
+                  disabled={isLoading}
+                  className="login-button"
+                >
+                  Register
+                </Button>
+
                 <div className="footer">
                   Already have a Upnread account?
                   <a href="https://app.upnread.com/login"> Login </a>
@@ -135,14 +109,18 @@ const Register = () => {
             </Form>
           )}
         </Formik>
-      </FormControl>
-    </Card>
+      </Card>
+    </FormControl>
   );
 };
 
 export default Register;
 
 const FormControl = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   .tittle {
     font-weight: bold;
     flex: 1;
@@ -153,11 +131,15 @@ const FormControl = styled.div`
     margin-left: 10rem;
     display: block;
   }
+
   .register {
-    width: 90%;
-    max-width: 40rem;
-    margin: 2rem auto;
+    width: 100%;
+    max-width: 30rem;
     padding: 2rem;
+  }
+
+  .login-button {
+    width: 100%;
   }
 
   .control {
@@ -168,15 +150,12 @@ const FormControl = styled.div`
   }
   .googlebutton {
     margin-top: 1rem;
-    margin-left: 1rem;
     margin-bottom: 1rem;
+    width: 100%;
   }
   .centrado {
     align-items: center;
     font: inherit;
-  }
-  .actions {
-    text-align: center;
   }
 
   .footer {
@@ -184,12 +163,6 @@ const FormControl = styled.div`
     margin-left: 1rem;
     margin-bottom: 1rem;
     font-size: 0.9rem;
-  }
-  @media {
-    max-width: 768px;
-    min-width: 500px;
-    align-items: center;
-    flex-direction: row;
   }
 `;
 
